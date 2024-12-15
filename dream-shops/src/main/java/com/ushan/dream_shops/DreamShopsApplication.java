@@ -1,4 +1,4 @@
-package com.ushan.dream_shops;
+ package com.ushan.dream_shops;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
