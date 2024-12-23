@@ -1,12 +1,13 @@
 package com.ushan.dream_shops.service.product;
 
 import com.ushan.dream_shops.model.Product;
+import com.ushan.dream_shops.request.AddProductRequest;
 
 import java.util.List;
 
 public interface IProductService {
 
-    Product addProduct(Product product);
+    Product addProduct(AddProductRequest product);
     Product getProductById(Long productId);
     void deleteProductById(Long id);
     void updateProduct(Product product, Long  productId);

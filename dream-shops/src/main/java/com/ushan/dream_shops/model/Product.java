@@ -1,7 +1,6 @@
 package com.ushan.dream_shops.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class Product {
 
@@ -31,4 +29,13 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
+
+    public Product(Category category, String description, int inventory, BigDecimal price, String brand, String name) {
+        this.category = category;
+        this.description = description;
+        this.inventory = inventory;
+        this.price = price;
+        this.brand = brand;
+        this.name = name;
+    }
 }

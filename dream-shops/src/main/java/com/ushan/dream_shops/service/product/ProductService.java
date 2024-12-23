@@ -1,22 +1,48 @@
 package com.ushan.dream_shops.service.product;
 
 import com.ushan.dream_shops.exceptions.ProductNotFoundException;
+import com.ushan.dream_shops.model.Category;
 import com.ushan.dream_shops.model.Product;
+import com.ushan.dream_shops.repository.CategoryRepository;
 import com.ushan.dream_shops.repository.ProductRepository;
+import com.ushan.dream_shops.request.AddProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class ProductService implements IProductService{
 
     private ProductRepository productRepository;
+    private CategoryRepository categoryRepository;
 
     @Override
-    public Product addProduct(Product product) {
-        return null;
+    public Product addProduct(AddProductRequest request) {
+        // check if the category is found in the DB
+        // If Yes,  set it as the new product category
+        //If No, the save it as a new category
+        // Then set as the new product category
+        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+                .orElseGet(()-> {
+                    Category newCategory = new Category(request.getCategory().getName());
+                    return categoryRepository.save(newCategory);
+                });
+        request.setCategory(category);
+        return productRepository.save(createProduct(request, category));
+    }
+
+    private Product createProduct(AddProductRequest request, Category category){
+        return new Product(
+          request.getName(),
+          request.getBrand(),
+          request.getPrice(),
+          request.getInventory(),
+          request.getDescription(),
+          category
+        );
     }
 
     @Override
